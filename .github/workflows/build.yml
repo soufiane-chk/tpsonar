@@ -5,24 +5,22 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     name: Build and analyze
-    runs-on: self-hosted  # Utilise un runner auto-hébergé (votre machine Windows 11)
+    runs-on:  windows-latest 
     
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Désactive les clones peu profonds pour une analyse plus pertinente
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - uses: sonarsource/sonarqube-scan-action@v3
         env:
-          SONAR_TOKEN: sqp_ee4efd704e0e650fdc99fd2202ef1da924d95957
-          SONAR_HOST_URL: "http://localhost:9000"  # Adresse locale du serveur SonarQube
-        with:
-          args: '-X'  # Ajoute l'option pour le mode débogage
-
-      # Décommentez les lignes suivantes si vous souhaitez échouer le job en cas d'échec de la Quality Gate
+          SONAR_TOKEN: sqp_ee4efd704e0e650fdc99fd2202ef1da924d9595
+          SONAR_HOST_URL: "http://localhost:9000"
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
       # - uses: sonarsource/sonarqube-quality-gate-action@master
       #   timeout-minutes: 5
       #   env:
